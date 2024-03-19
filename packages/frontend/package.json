@@ -1,7 +1,7 @@
 {
   "name": "todo-list/frontend",
   "version": "0.1.0",
-  "private": false,
+  "private": true,
   "dependencies": {
     "@emotion/is-prop-valid": "^1.2.2",
     "@emotion/react": "^11.11.4",
