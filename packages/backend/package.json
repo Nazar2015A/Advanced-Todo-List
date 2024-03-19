@@ -11,8 +11,8 @@
     "watch-deploy": "nodemon dist/server.js",
     "server": "concurrently \"npm run watch-tsc\" \"npm run watch-deploy\"",
     "start": "yarn build && yarn deploy",
-    "build": "tsc && npm run deploy"
-},
+    "build": "tsc"
+  },
   "dependencies": {
     "@types/cors": "^2.8.17",
     "@types/passport": "^1.0.16",
