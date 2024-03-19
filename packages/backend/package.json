@@ -1,5 +1,5 @@
 {
-  "name": "todo-list/backend",
+  "name": "todo-list-backend",
   "version": "1.0.0",
   "description": "Mongoose Node.js Express TypeScript application boilerplate with best practices for API development.",
   "author": "Nazarii Komar",
