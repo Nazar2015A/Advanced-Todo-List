@@ -12,7 +12,9 @@ export const LoginPage = () => (
         <LockOutlinedIcon />
       </StyledAvatar>
       <StyledLoginTitle>Sign in</StyledLoginTitle>
+
       <LoginForm />
+      
     </StyledLoginContainer>
   </ThemeProvider>
 );

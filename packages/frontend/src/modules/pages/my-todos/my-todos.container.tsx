@@ -5,7 +5,6 @@ import {
   CustomInput,
   StyledConrainerBtn,
   StyledFilter,
-  StyledFilterBtns,
   StyledSearch,
   StyledTodosWrapper,
   TodosContainer
@@ -18,22 +17,20 @@ import { MyTodosHeader } from '../../common/components/my-todos-header';
 import { INITIAL_VALUES, ModalContainer } from '../../common/components/modal';
 import { FilterTodo } from '../../common/types/todo-filter.enum';
 import { useCustomSearchParams } from '../../common/hooks/useCustomSearchParams';
+import { TodosFilter } from '../../common/components/todos-filter/todos-filter.component';
+import { useModal } from '../../common/hooks/useModal';
 
 export const MyTodos: FC = () => {
   const { setSearch, setStatus, getStatus, getSearch, searchParams } = useCustomSearchParams();
-  const [isModal, setIsModal] = useState<boolean>(false);
+  const { modal, closeModal, openModal } = useModal(false);
   const [activeFilter, setActiveFilter] = useState<string>(getStatus || FilterTodo.ALL);
 
   const { createTodo } = useCreateTodo();
 
-  const handleModalToggle = () => {
-    setIsModal((prev) => !prev);
-  };
-
   const handleTaskCreate = (values: ITodoSchema, formikHelpers: FormikHelpers<ITodoSchema>) => {
     createTodo(values);
     formikHelpers.resetForm();
-    handleModalToggle();
+    closeModal();
   };
 
   const handleFilterClick = (filter: string) => {
@@ -54,34 +51,18 @@ export const MyTodos: FC = () => {
 
   return (
     <TodosContainer>
-      <MyTodosHeader modalOpen={handleModalToggle} />
+      <MyTodosHeader modalOpen={openModal} />
       <StyledTodosWrapper>
         <StyledFilter>
           <StyledConrainerBtn>
-            <StyledFilterBtns
-              onClick={() => handleFilterClick(FilterTodo.ALL)}
-              $active={activeFilter === FilterTodo.ALL}
-            >
-              {FilterTodo.ALL}
-            </StyledFilterBtns>
-            <StyledFilterBtns
-              onClick={() => handleFilterClick(FilterTodo.PRIVATE)}
-              $active={activeFilter === FilterTodo.PRIVATE}
-            >
-              {FilterTodo.PRIVATE}
-            </StyledFilterBtns>
-            <StyledFilterBtns
-              onClick={() => handleFilterClick(FilterTodo.PUBLIC)}
-              $active={activeFilter === FilterTodo.PUBLIC}
-            >
-              {FilterTodo.PUBLIC}
-            </StyledFilterBtns>
-            <StyledFilterBtns
-              onClick={() => handleFilterClick(FilterTodo.COMPLETED)}
-              $active={activeFilter === FilterTodo.COMPLETED}
-            >
-              {FilterTodo.COMPLETED}
-            </StyledFilterBtns>
+            {Object.values(FilterTodo).map((filter) => (
+              <TodosFilter
+                key={filter}
+                filter={filter}
+                activeFilter={activeFilter}
+                handleFilterClick={handleFilterClick}
+              />
+            ))}
           </StyledConrainerBtn>
 
           <StyledSearch>
@@ -97,10 +78,10 @@ export const MyTodos: FC = () => {
         <MyTodosContent />
       </StyledTodosWrapper>
       <ModalContainer
-        open={isModal}
+        open={modal}
         title="Create a Task"
         onSubmit={handleTaskCreate}
-        modalClose={handleModalToggle}
+        modalClose={closeModal}
         initialValues={INITIAL_VALUES}
       />
     </TodosContainer>

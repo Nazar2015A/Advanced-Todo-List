@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, FormikHelpers } from 'formik';
-import { Button, TextField, ThemeProvider } from '@mui/material';
+import { Button, ThemeProvider } from '@mui/material';
 import {
   CHNAGE_PASWWORD_INITIAL_VALUES,
   ChangePasswordSchema,
@@ -9,6 +9,7 @@ import {
 import { darkTheme } from '../../../common/components/modal';
 import { useChangePassword } from '../../../common/hooks/user-hooks/useChangePassword';
 import { StyledForm, StyledInputContainer } from './change-password-form.styled';
+import { CustomInput } from '../../../common/components/custom-input/custom-input.component';
 
 export const ChangePasswordForm = () => {
   const { changePassword } = useChangePassword();
@@ -28,14 +29,8 @@ export const ChangePasswordForm = () => {
         {({ errors, touched, values, handleChange }) => (
           <StyledForm>
             <StyledInputContainer>
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label htmlFor="old-password">Old Password</label>
-              <TextField
-                fullWidth
-                id="old-password"
-                name="oldPassword"
-                label="Old Password"
-                type="password"
+              <CustomInput
+                fieldName="old-password"
                 value={values.oldPassword}
                 onChange={handleChange}
                 error={(errors.oldPassword && touched.oldPassword) as boolean | undefined}
@@ -43,14 +38,8 @@ export const ChangePasswordForm = () => {
               />
             </StyledInputContainer>
             <StyledInputContainer>
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label htmlFor="new-password">New Password</label>
-              <TextField
-                fullWidth
-                id="new-password"
-                name="newPassword"
-                label="New Password"
-                type="password"
+              <CustomInput
+                fieldName="new-password"
                 value={values.newPassword}
                 onChange={handleChange}
                 error={(errors.newPassword && touched.newPassword) as boolean | undefined}

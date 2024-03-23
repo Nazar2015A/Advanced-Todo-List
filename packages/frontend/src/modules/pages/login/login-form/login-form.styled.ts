@@ -10,6 +10,12 @@ export const StyledForm = styled(Form)`
     display: flex;
     flex-direction: column;
     gap: ${SPACES.md};
+    width: 30%;
+    min-width: 300px;
+
+    @media ${DEVICE.mobile} {
+      min-width: 225px;
+    }
   }
 `;
 export const StyledInput = styled('div')`

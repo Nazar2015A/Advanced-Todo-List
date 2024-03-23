@@ -10,6 +10,7 @@ import useForgotPassword from '../../hooks/mail-hooks/useForgotPassword';
 import { StyledSubmitBtn } from '../modal-reset-password/modal-reset-password.styled';
 import { darkTheme } from '../modal/modal.const';
 import { StyledModalClose } from './modal-forgot-password.styled';
+import { CustomInput } from '../custom-input/custom-input.component';
 
 interface Props {
   open: boolean;
@@ -45,20 +46,13 @@ export const ModalForgotPassword: FC<Props> = ({ open, close }) => {
           >
             {({ errors, touched, values, handleChange }) => (
               <StyledForm>
-                <StyledInput>
-                  {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                  <label htmlFor="title">Email</label>
-                  <TextField
-                    fullWidth
-                    id="email"
-                    name="email"
-                    label="Email"
-                    value={values.email}
-                    onChange={handleChange}
-                    error={(errors.email && touched.email) as boolean | undefined}
-                    helperText={errors.email && touched.email ? errors.email : ''}
-                  />
-                </StyledInput>
+                <CustomInput
+                  fieldName="email"
+                  value={values.email}
+                  onChange={handleChange}
+                  error={(errors.email && touched.email) as boolean | undefined}
+                  helperText={errors.email && touched.email ? errors.email : ''}
+                />
                 <StyledSubmitBtn variant="contained" type="submit">
                   Submit
                 </StyledSubmitBtn>

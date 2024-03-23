@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import useGetOneTodos from '../../common/hooks/todos-hooks/userGetOneTodo';
 import { APP_KEYS } from '../../common/consts';
 import { TodoDetail } from '../../common/components/todo-detail';
@@ -8,10 +8,11 @@ import {
   StyledTodoNotFound,
   StyledTodoNotFoundTitle
 } from './todo-detail-page.styled';
+import { useMyNavigation } from '../../common/hooks/useMyNavigation';
 
 export const TodoDetailPage: FC = () => {
   const { id } = useParams<string>();
-  const navigate = useNavigate();
+  const { navigate } = useMyNavigation(APP_KEYS.ROUTER_KEYS.MY_TODOS);
 
   const { data, isError } = useGetOneTodos(id!);
 
@@ -21,7 +22,7 @@ export const TodoDetailPage: FC = () => {
         <StyledTodoNotFoundTitle>
           Oops... <br /> Todo Not Found{' '}
         </StyledTodoNotFoundTitle>
-        <StyledButton variant="contained" onClick={() => navigate(APP_KEYS.ROUTER_KEYS.MY_TODOS)}>
+        <StyledButton variant="contained" onClick={navigate}>
           Back to My Todos
         </StyledButton>
       </StyledTodoNotFound>

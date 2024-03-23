@@ -9,13 +9,10 @@ import {
 } from './home-page.styled';
 import { APP_KEYS } from '../../common/consts';
 import { ModalForgotPassword } from '../../common/components/modal-forgot-password';
+import { useModal } from '../../common/hooks/useModal';
 
 export const HomePage = () => {
-  const [modalReset, setModalReset] = useState<boolean>(false);
-
-  const handleModalToggle = () => {
-    setModalReset((prev) => !prev);
-  };
+  const { modal, openModal, closeModal } = useModal(false);
 
   return (
     <StyledHomeContainer>
@@ -28,9 +25,9 @@ export const HomePage = () => {
           <StyledBtn variant="outlined">Register</StyledBtn>
         </Link>
 
-        <StyledBtnForget onClick={handleModalToggle}>Forget Password ?</StyledBtnForget>
+        <StyledBtnForget onClick={openModal}>Forget Password ?</StyledBtnForget>
       </StyledHomeBtnsContainer>
-      <ModalForgotPassword open={modalReset} close={handleModalToggle} />
+      <ModalForgotPassword open={modal} close={closeModal} />
     </StyledHomeContainer>
   );
 };

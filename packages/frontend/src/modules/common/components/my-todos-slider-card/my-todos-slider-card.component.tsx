@@ -17,6 +17,7 @@ import useDeleteTodo from '../../hooks/todos-hooks/useDeleteTodo';
 import { CustomSwitch } from '../ui';
 import { ModalContainer } from '../modal';
 import { StyledDeleteBtn } from '../../../pages/my-todos';
+import { useModal } from '../../hooks/useModal';
 
 interface Props {
   todo: ITodo;
@@ -24,15 +25,11 @@ interface Props {
 }
 
 export const MyTodosCard: FC<Props> = ({ todo, handleTodoUpdate }) => {
-  const [editModal, setEditModal] = useState<boolean>(false);
+  const { modal, closeModal, openModal } = useModal(false);
   const { deleteTodo } = useDeleteTodo();
 
-  const handleModalToggle = () => {
-    setEditModal((prev) => !prev);
-  };
-
-  const handleTaskDelete = (todoId: TodoId) => {
-    deleteTodo(todoId);
+  const handleTaskDelete = () => {
+    deleteTodo(todo.id);
   };
 
   const handleCompletedChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +42,7 @@ export const MyTodosCard: FC<Props> = ({ todo, handleTodoUpdate }) => {
   const handleUpdate = (values: ITodoSchema, formikHelpers: FormikHelpers<ITodoSchema>) => {
     handleTodoUpdate({ id: todo.id, ...values });
     formikHelpers.resetForm();
-    handleModalToggle();
+    closeModal();
   };
 
   const { id, ...todoWithoutId } = todo;
@@ -65,16 +62,16 @@ export const MyTodosCard: FC<Props> = ({ todo, handleTodoUpdate }) => {
       </Box>
 
       <StyledBtnsContainer>
-        <StyledDeleteBtn onClick={() => handleTaskDelete(todo.id)}>
+        <StyledDeleteBtn onClick={handleTaskDelete}>
           <DeleteIcon />
         </StyledDeleteBtn>
-        <StyledEditBtn onClick={handleModalToggle}>
+        <StyledEditBtn onClick={openModal}>
           <EditIcon />
         </StyledEditBtn>
       </StyledBtnsContainer>
       <ModalContainer
-        open={editModal}
-        modalClose={handleModalToggle}
+        open={modal}
+        modalClose={closeModal}
         onSubmit={handleUpdate}
         title="Edit a Task"
         initialValues={todoWithoutId}
